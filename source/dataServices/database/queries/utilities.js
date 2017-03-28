@@ -1,5 +1,16 @@
 import knex from '../knex'
 
+const getUserByOAuthID = ( oauthID, callback ) =>
+  knex.table( 'users' ).where( 'oauthID', oauthID )
+    .then( user => {
+        if ( user == undefined ) {
+          throw new Error( 'getUserByOAuthID: no record of user with oauthid ${oauthID} in database.' )
+        } else {
+          return user
+        }
+    })
+    .catch( error => callback( error ) )
+
 const getRecordById = ( table, id ) =>
   knex.table( table ).where( 'id', id ).first('*')
     .then( record => {
@@ -22,4 +33,4 @@ const findAllWhere = ( table, column, data ) =>
     })
     .catch( error => error )
 
-export { getRecordById, findAllWhere }
+export { getRecordById, findAllWhere, getUserByOAuthID }

@@ -40,5 +40,10 @@ router.post( '/project/edit/:id', handleEditProject )
 router.post( '/project/delete/:id', handleDeleteProject )
 
 router.get( '/user/:id/projects', handleGetProjectsByUserId )
+router.get( '/user/:id/logout', ( request, response ) => {
+  request.logout()
+  response.send( 'LOGGED OUT' )
+})
+
 
 export default router
