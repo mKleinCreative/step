@@ -1,15 +1,15 @@
 import knex from '../knex'
 
-const getUserByOAuthID = ( oauthID, callback ) =>
+const getUserByOAuthID = oauthID =>
   knex.table( 'users' ).where( 'oauthID', oauthID )
     .then( user => {
-        if ( user == undefined ) {
-          throw new Error( 'getUserByOAuthID: no record of user with oauthid ${oauthID} in database.' )
+        if ( !user ) {
+          throw new Error( 'getUserByOAuthID: no record of user with oauthid ${oauthID}.' )
         } else {
           return user
         }
     })
-    .catch( error => callback( error ) )
+    .catch( error => error )
 
 const getRecordById = ( table, id ) =>
   knex.table( table ).where( 'id', id ).first('*')

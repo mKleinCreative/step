@@ -1,6 +1,11 @@
 import express from 'express'
 import passport from 'passport'
 import {
+  handleAuthenticationInitialization,
+  handlePostAuthentication,
+  handleLogOut
+} from '../../controllers/v1/passportController'
+import {
   handleNewCouldDo,
   handleEditCouldDo,
   handleDeleteCouldDo
@@ -15,20 +20,11 @@ import {
 
 const router = express()
 
-router.get(
-  '/auth/google',
-  passport.authenticate( 'google', { scope:
-  [
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/plus.profile.emails.read'
-  ]
-}))
-
+router.get('/auth/google', handleAuthenticationInitialization )
 router.get( '/google/auth/callback',
   passport.authenticate( 'google', { failureRedirect: '/' } ),
-  ( request, response ) => {
-    response.status(200).json({ message: 'shit failed' })
-  })
+  handlePostAuthentication
+)
 
 router.post( '/could-do/new', handleNewCouldDo )
 router.post( '/could-do/edit/:id', handleEditCouldDo )
@@ -40,10 +36,7 @@ router.post( '/project/edit/:id', handleEditProject )
 router.post( '/project/delete/:id', handleDeleteProject )
 
 router.get( '/user/:id/projects', handleGetProjectsByUserId )
-router.get( '/user/:id/logout', ( request, response ) => {
-  request.logout()
-  response.send( 'LOGGED OUT' )
-})
+router.get( '/user/:id/logout', handleLogOut )
 
 
 export default router

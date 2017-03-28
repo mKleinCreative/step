@@ -7,13 +7,13 @@ import chalk from 'chalk'
 import bodyParser from 'body-parser'
 import router from './api/v1/routes'
 import passport from 'passport'
-import StrategeryDood from './oauth'
+import googlePassportStrategy from './oauth'
 
 passport.serializeUser( ( user, done ) => done( null, user ) )
 passport.deserializeUser( ( obj, done ) => done( null, obj ) )
 
 //HACK: name change?
-passport.use( StrategeryDood )
+passport.use( googlePassportStrategy )
 
 
 const server = express()
