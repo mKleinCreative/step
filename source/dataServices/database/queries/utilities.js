@@ -3,11 +3,11 @@ import knex from '../knex'
 const getUserByOAuthID = oauthID =>
   knex.table( 'users' ).where( 'oauthID', oauthID )
     .then( user => {
-        if ( !user ) {
-          throw new Error( 'getUserByOAuthID: no record of user with oauthid ${oauthID}.' )
-        } else {
-          return user
-        }
+      if ( !user ) {
+        throw new Error( `getUserByOAuthID: no record of user with oauthid ${oauthID}.` )
+      } else {
+        return user
+      }
     })
     .catch( error => error )
 

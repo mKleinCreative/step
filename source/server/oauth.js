@@ -1,11 +1,11 @@
-import { default as GoogleStrategy } from 'passport-google-oauth2'
+import GoogleStrategy from 'passport-google-oauth2'
 import { getUserByOAuthID } from '../dataServices/database/queries/utilities'
 import { createRecord } from '../dataServices/database/commands/utilities'
 import '../../configuration/environment'
 
 const passportCredentials = {
-  GOOGLE_CONSUMER_KEY: "561778736592-pkk0fomt2mi29dkd5a9m0fcdtumu7fcu.apps.googleusercontent.com",
-  CLIENT_SECRET: "ZK6QUW-OjNxvXwDIPVEK0ZQ6"
+  GOOGLE_CONSUMER_KEY: '561778736592-pkk0fomt2mi29dkd5a9m0fcdtumu7fcu.apps.googleusercontent.com',
+  CLIENT_SECRET: 'ZK6QUW-OjNxvXwDIPVEK0ZQ6'
 }
 
 const googlePassportStrategy = new GoogleStrategy({
@@ -25,12 +25,11 @@ const googlePassportStrategy = new GoogleStrategy({
           created_at: new Date()
         }
         createRecord( 'users', attributes )
-        .then( user => done( null, user ) )
+        .then( newUser => done( null, newUser ) )
       } else {
-        console.log('profile!', user );
         done( null, user[0] )
       }
     })
-})
+  })
 
 export default googlePassportStrategy
